@@ -10,16 +10,12 @@ import mongoose from "mongoose";
           // Check if the environment variable is set
           // Connect to MongoDB
           const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-          console.log(`\n MongoDB connected !! DB HOST:  ${connectionInstance.connection.host} `);
+          console.log(`\n MongoDB connected sucessfully !! DB HOST :  ${connectionInstance.connection.host} `);
           // If connection fails, throw an error
-
-
 
      } catch (error){
           console.log("MONGODB connection Fail ", error);
           process.exit(1)
-          
-          // If connection fails, throw an error
      }
  }
  // Export the function to be used in other files
