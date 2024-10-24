@@ -1,24 +1,28 @@
-// import necessary modules
-
+// Import necessary modules
 import mongoose from "mongoose";
 import { DB_NAME } from "../constants.js";
- 
- const connectDB = async () =>{
-     try{
- // Check if the environment variable is set
-          console.log(process.env.MONGODB_URI)
 
-          
-          // Connect to MongoDB
-          const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-          console.log(`\n MongoDB connected sucessfully !! DB HOST :  ${connectionInstance.connection.host} `);
-          // If connection fails, throw an error
+// Asynchronous function to connect to MongoDB database
+const connectDB = async () => {
+  try {
+    // Check if the MONGODB_URI environment variable is set
+    console.log(`Checking for MONGODB_URI environment variable...`);
+    if (!process.env.MONGODB_URI) {
+      throw new Error("MONGODB_URI environment variable is not set!");
+    }
 
-     } catch (error){
-          console.log("MONGODB connection Fail ", error);
-          process.exit(1)
-     }
- }
- // Export the function to be used in other files
+    // Connect to MongoDB using the provided URI and database name
+    console.log(`Connecting to MongoDB using: ${process.env.MONGODB_URI}/${DB_NAME}`);
+    const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`);
 
- export default connectDB
+    // Log success message upon successful connection
+    console.log(`\n MongoDB connected successfully !! DB HOST:  ${connectionInstance.connection.host} `);
+  } catch (error) {
+    // Handle connection errors
+    console.error("MONGODB connection failed! ", error);
+    process.exit(1); // Exit the process with an error code
+  }
+};
+
+// Export the connectDB function to be used in other files
+export default connectDB;

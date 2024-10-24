@@ -1,12 +1,19 @@
-const asynHandler = (requestHandler) =>{
-     (req,res,next) => {
-          Promise.resolve(requestHandler(req,res,next)).catch((err) => (err))
-     }
-}
 
-
-
-export {asynHandler}
+// Custom error handler middleware
+const asynHandler = (requestHandler) => {
+     // Create a new middleware function that wraps the provided request handler
+     return (req, res, next) => {
+       // Resolve the request handler as a Promise
+       Promise.resolve(requestHandler(req, res, next))
+         .catch((err) => {
+           // Handle any errors that occur within the request handler
+           console.error('Error:', err);
+           res.status(500).json({ error: 'Internal Server Error' });
+         });
+     };
+   };
+   
+   export { asynHandler };
 
 // const asynHandler =(fn) => async (req,res,next) => {
 //      try{
