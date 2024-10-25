@@ -1,20 +1,30 @@
-import express from "express"
-import cors from "cors"
-import cookieParser from 'cookie-parser'
+// Import necessary modules
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-const app = express()
+// Create an Express application instance
+const app = express();
 
-// Middleware to parse JSON request bodies
+// Middleware configuration:
+
+// Enable CORS (Cross-Origin Resource Sharing) to allow requests from specific origins
 app.use(cors({
-     origin: process.env.CORS_ORIGIN,
-     cridentials:true
-}))
+  origin: process.env.CORS_ORIGIN, // Specify the allowed origin(s)
+  credentials: true // Allow credentials (cookies, authorization headers) to be sent with requests
+}));
 
-app.use(express.json({limit: "16kb"}))
-app.use(express.urlencoded({extended:true, limit: "16kb"}))
-app.use(express.static("public"))
-app.use(cookieParser())
+// Parse JSON request bodies
+app.use(express.json({ limit: "16kb" })); // Limit JSON body size to 16KB
 
+// Parse URL-encoded request bodies
+app.use(express.urlencoded({ extended: true, limit: "16kb" })); // Limit URL-encoded body size to 16KB
 
+// Serve static files from the 'public' directory
+app.use(express.static("public"));
 
-export {app}
+// Parse cookies from incoming requests
+app.use(cookieParser());
+
+// Export the Express app for use in other modules
+export { app };
