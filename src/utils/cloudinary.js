@@ -1,5 +1,6 @@
 // Import necessary modules
 import { v2 as cloudinary } from 'cloudinary';
+import { log } from 'console';
 import fs from 'fs';
 
 // Configure Cloudinary with environment variables
@@ -21,10 +22,13 @@ const uploadCloudinary = async (localFilePath) => {
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: 'auto', // Automatically detect the file type
     });
+   
 
     // Log success message and return the upload result
     console.log('File uploaded to Cloudinary:', response.url);
     return response;
+   
+    
 
   } catch (error) {
     // Handle upload errors
