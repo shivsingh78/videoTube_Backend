@@ -1,6 +1,6 @@
 
 // Custom error handler middleware
-const asynHandler = (requestHandler) => {
+const asyncHandler = (requestHandler) => {
      // Create a new middleware function that wraps the provided request handler
      return (req, res, next) => {
        // Resolve the request handler as a Promise
@@ -13,7 +13,7 @@ const asynHandler = (requestHandler) => {
      };
    };
    
-   export { asynHandler };
+   export { asyncHandler };
 
 // const asynHandler =(fn) => async (req,res,next) => {
 //      try{
