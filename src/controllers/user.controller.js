@@ -395,60 +395,53 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         from: "subscriptions",
         localField: "_id",
         foreignField: "subscriber",
-        as: "subscribedTo"
-      }
+        as: "subscribedTo",
+      },
     },
     {
       $addFields: {
         subscriberCount: {
-          $size: "$subscribers"
+          $size: "$subscribers",
         },
         channelSubscribedToCount: {
-          $size: "$subscribedTo"
-
+          $size: "$subscribedTo",
         },
         isSubscribed: {
           $cond: {
-            if: {$in: [req.user?._id, "$subscribers.subscriber"]},
+            if: { $in: [req.user?._id, "$subscribers.subscriber"] },
             then: true,
-            else: false
-          }
-        }
-
-
-      }
-
+            else: false,
+          },
+        },
+      },
     },
     {
       $project: {
-        fullName:1,
+        fullName: 1,
         subscriberCount: 1,
-        channelSubscribedToCount:1,
-        isSubscribed:1,
-        avatar:1,
-        coverImage:1,
-        email: 1
-
-    }
-  }
+        channelSubscribedToCount: 1,
+        isSubscribed: 1,
+        avatar: 1,
+        coverImage: 1,
+        email: 1,
+      },
+    },
   ]);
   console.log(channel);
-  if(!channel?.length){
-    throw new ApiError(400, " channel does not exist")
+  if (!channel?.length) {
+    throw new ApiError(400, " channel does not exist");
   }
   return res
-  .status(200)
-  .json(
-    new ApiResponse(200,"user channel fetched successfully")
-  )
+    .status(200)
+    .json(new ApiResponse(200, "user channel fetched successfully"));
 });
 
-const getWatchHistory = asyncHandler(async(req, res) => {
+const getWatchHistory = asyncHandler(async (req, res) => {
   const user = await User.aggregate([
     {
-       $match: {
-        _id: new mongoose.Types.objectId(req.user._id)
-       }
+      $match: {
+        _id: new mongoose.Types.objectId(req.user._id),
+      },
     },
     {
       $lookup: {
@@ -468,34 +461,34 @@ const getWatchHistory = asyncHandler(async(req, res) => {
                   $project: {
                     fullName: 1,
                     username: 1,
-                    avatar: 1
-                  }
-                }
-              ]
-
-            }
-          }, {
+                    avatar: 1,
+                  },
+                },
+              ],
+            },
+          },
+          {
             $addFields: {
-              owner:{
-                $first: "$owner"
-              }
-            }
-          }
-        ]
-      }
-    }
-  ])
+              owner: {
+                $first: "$owner",
+              },
+            },
+          },
+        ],
+      },
+    },
+  ]);
 
-  return res 
-  .status(200)
-  .json(
-    new ApiResponse(
-      200,
-      user[0].watchHistory,
-      "Watch history fetched successfully"
-    )
-  )
-})
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        user[0].watchHistory,
+        "Watch history fetched successfully"
+      )
+    );
+});
 
 export {
   registerUser,
@@ -508,5 +501,5 @@ export {
   updateUserAvatar,
   updateUserCoverImage,
   getUserChannelProfile,
-  getWatchHistory
+  getWatchHistory,
 };
