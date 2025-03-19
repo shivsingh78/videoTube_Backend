@@ -12,11 +12,17 @@ const connectDB = async () => {
     }
 
     // Connect to MongoDB using the provided URI and database name
-    console.log(`Connecting to MongoDB using: ${process.env.MONGODB_URI}/${DB_NAME}`);
-    const connectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`);
+    console.log(
+      `Connecting to MongoDB using: ${process.env.MONGODB_URI}/${DB_NAME}`
+    );
+    const connectionInstance = await mongoose.connect(
+      `${process.env.MONGODB_URI}/${DB_NAME}`
+    );
 
     // Log success message upon successful connection
-    console.log(`\n MongoDB connected successfully !! DB HOST:  ${connectionInstance.connection.host} `);
+    console.log(
+      `\n MongoDB connected successfully !! DB HOST:  ${connectionInstance.connection.host} `
+    );
   } catch (error) {
     // Handle connection errors
     console.error("MONGODB connection failed! ", error);

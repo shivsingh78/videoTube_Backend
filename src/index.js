@@ -7,7 +7,7 @@ import { app } from "./app.js";
 
 // Load environment variables from the .env file
 dotenv.config({
-  path: "./.env"
+  path: "./.env",
 });
 
 // Connect to MongoDB using the `connectDB` function
@@ -28,10 +28,6 @@ connectDB()
     // Handle errors that occur during the MongoDB connection process
     console.log("MongoDB connection failed !!! ", err);
   });
-
-
-
-
 
 /*
 import express from "express"
